@@ -47,4 +47,3 @@ text_file.close()
 for item in to_write:
     print(item)
     print()
-

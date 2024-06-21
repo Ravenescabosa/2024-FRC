@@ -45,7 +45,7 @@ def get_expenses(var_fixed):
     price_list = []
 
     variable_dict = {
-        "item": item_list,
+        "Item": item_list,
         "Quantity": quantity_list,
         "Price": price_list,
     }

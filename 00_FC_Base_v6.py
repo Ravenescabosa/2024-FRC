@@ -226,6 +226,7 @@ if have_fixed == "yes":
     fixed_sub = fixed_expenses[1]
 else:
     fixed_sub = 0
+    fixed_frame = ""
 
 # work out total costs and profit target
 all_costs = variable_sub + fixed_sub
@@ -249,24 +250,58 @@ recommended_price = round_up(selling_price, round_to)
 
 # *** Printing Area ****
 
-print()
-print("**** Fund Raising - {} *****".format(product_name))
-print()
-expense_print("Variable", variable_frame, variable_sub, )
+# print()
+# print("**** Fund Raising - {} *****".format(product_name))
+# print()
+# expense_print("Variable", variable_frame, variable_sub, )
+#
+# if have_fixed == "yes":
+#     expense_print("Fixed", fixed_frame[["Cost"]], fixed_sub)
+
+# print()
+# print("**** Total Costs: ${:.2f} ****".format(all_costs))
+# print()
+
+# print()
+fixed_sub_heading = "\n**** Profit & Sales Targets ****"
+profit_target_txt = "\nProfit Target: ${:.2f}".format(profit_target)
+required_sales = "Total Sales: ${:.2f}".format(all_costs + profit_target)
+
+
+heading = f"****** {product_name} ******\n"
+variable_sub_heading = "===== Variable Costs ======="
+variable_txt = pandas.DataFrame.to_string(variable_frame)
 
 if have_fixed == "yes":
-    expense_print("Fixed", fixed_frame[["Cost"]], fixed_sub)
+    fixed_sub_heading = "===== Fixed Costs ======="
+    fixed_txt = pandas.DataFrame.to_string(fixed_frame)
+else:
+    fixed_sub_heading = ""
+    fixed_txt = ""
 
-print()
-print("**** Total Costs: ${:.2f} ****".format(all_costs))
-print()
+pricing_heading = "**** Pricing *****"
+minimum_price_txt = "Minimum Price: ${:.2f}".format(selling_price)
 
-print()
-print("**** Profit & Sales Targets ****")
-print("Profit Target: ${:.2f}".format(profit_target))
-print("Total Sales: ${:.2f}".format(all_costs + profit_target))
+recommended_price_txt = "Recommended Price: ${:.2f}".format(recommended_price)
 
-print()
-print("**** Pricing *****")
-print("Minimum Price: ${:.2f}".format(selling_price))
-print("Recommended Price: ${:.2f}".format(recommended_price))
+# list holding stuff to print / write to file
+to_write = [heading, variable_sub_heading, variable_txt,
+            fixed_sub_heading, fixed_txt,
+            profit_target_txt, pricing_heading, minimum_price_txt,
+            recommended_price_txt]
+
+for item in to_write:
+    print(item)
+
+# Wrote to file...+
+# create file to hold data (add .txt extension)
+file_name = "{}.txt".format(product_name)
+text_file = open(file_name, "w+")
+
+# heading
+for item in to_write:
+    text_file.write(item)
+    text_file.write("\n\n")
+
+# close file
+text_file.close()
